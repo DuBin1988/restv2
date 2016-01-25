@@ -152,6 +152,7 @@
     <Compile Include="Program\ObjectTools\DefaultCaputerSource.cs" />
     <Compile Include="Program\ObjectTools\DllHTVcDll.cs" />
     <Compile Include="Program\ObjectTools\ExcelObj.cs" />
+    <Compile Include="Program\ObjectTools\FileConfigObj.cs" />
     <Compile Include="Program\ObjectTools\GasADObject.cs" />
     <Compile Include="Program\ObjectTools\GeneralICCard.cs" />
     <Compile Include="Program\ObjectTools\GeneralObject.cs" />

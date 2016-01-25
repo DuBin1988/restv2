@@ -48,6 +48,44 @@ namespace Com.Aote.Controls
             }
         }
 
+
+        /// <summary>
+        /// 保存方式, 数据库方式或文件方式。
+        /// </summary>
+        private string saveMode="";
+        public string SaveMode
+        {
+            get { return saveMode; }
+            set
+            {
+                if (saveMode != value)
+                {
+                    saveMode = value;
+                    OnPropertyChanged("SaveMode");
+                }
+            }
+        }
+
+
+        /// <summary>
+        /// 业务类型描述
+        /// </summary>
+        private string businessType="";
+        public string BusinessType
+        {
+            get { return businessType; }
+            set
+            {
+                if (businessType != value)
+                {
+                    businessType = value;
+                    OnPropertyChanged("BusinessType");
+                }
+            }
+        }
+
+
+
         #region Error 单条错误信息
         public static readonly DependencyProperty ErrorProperty =
             DependencyProperty.Register("Error", typeof(string), typeof(FileLoad),
@@ -99,6 +137,21 @@ namespace Com.Aote.Controls
             set { this.limit = value; }
         }
 
+
+        private int progressPercentage;
+        /// <summary>
+        /// 上次进度
+        /// </summary>
+        public int ProgressPercentage
+        {
+            get { return progressPercentage; }
+            set
+            {
+                progressPercentage = value;
+                OnPropertyChanged("ProgressPercentage");
+            }
+        }
+
         #region 文件名称
         public static readonly DependencyProperty FileNameProperty =
             DependencyProperty.Register("FileName", typeof(string), typeof(FileLoad), new PropertyMetadata(null));
@@ -145,7 +198,7 @@ namespace Com.Aote.Controls
                 this.FileName = fi.Name;
                 StreamReader sr = fi.OpenText();
                 WebClient webclient = new WebClient();
-                Uri uri = new Uri(Path + "?FileName=" + this.FileName + "&BlobId=" + tempid + "&EntityName=" + EntityName);
+                Uri uri = new Uri(Path + "?FileName=" + this.FileName + "&BlobId=" + tempid + "&EntityName=" + EntityName + "&SaveMode=" + SaveMode + "&BusinessType=" + BusinessType);
                 webclient.OpenWriteCompleted += new OpenWriteCompletedEventHandler(webclient_OpenWriteCompleted);
                 webclient.Headers["Content-Type"] = "multipart/form-data";
                 webclient.OpenWriteAsync(uri, "POST", fi.OpenRead());
@@ -161,16 +214,21 @@ namespace Com.Aote.Controls
             Stream clientStream = e.UserState as Stream;
             // e.Result - 目标地址的流（服务端流）
             Stream serverStream = e.Result;
-            byte[] buffer = new byte[clientStream.Length];
+            byte[] buffer = new byte[1000];
+            int i = 0;
             int readcount = 0;
             // clientStream.Read - 将需要上传的流读取到指定的字节数组中
             while ((readcount = clientStream.Read(buffer, 0, buffer.Length)) > 0)
             {
                 // serverStream.Write - 将指定的字节数组写入到目标地址的流
                 serverStream.Write(buffer, 0, readcount);
+                i++;
+                int j = (int)((100000 * i) / clientStream.Length);
+                ProgressPercentage = j;
             }
             serverStream.Close();
             clientStream.Close();
+            Image im = new Image();
         }
 
         void webclient_WriteStreamClosed(object sender, WriteStreamClosedEventArgs e)

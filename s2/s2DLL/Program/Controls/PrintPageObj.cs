@@ -249,11 +249,24 @@ namespace Com.Aote.Controls
             pd.Print("");
        }
 
-
+        /// <summary>
+        /// 是否正忙于工作
+        /// </summary>
+        public bool isBusy = false;
+        public bool IsBusy
+        {
+            get { return isBusy; }
+            set
+            {
+                isBusy = value;
+                OnPropertyChanged("IsBusy");
+            }
+        }
 
         //打印
         public void PrintD()
         {
+            IsBusy = true;
             PageIndex = -1;
             Count = (List.Count % PageRow == 0) ? (List.Count / PageRow) : (List.Count / PageRow) + 1;
             if (Count == 0)
@@ -272,16 +285,21 @@ namespace Com.Aote.Controls
                 if (List is PagedObjectList)
                 {
                     PageIndex++;
-                    PagedObjectList pol = (PagedObjectList)List;
-                    pol.DataLoaded += (o1, e1) =>
+                    PagedObjectList pdl = new PagedObjectList();
+                    pdl.WebClientInfo = List.WebClientInfo;
+                    pdl.Path = List.Path;
+                    pdl.Count = List.Count;
+                    pdl.PageSize = PageRow;
+                    pdl.DataLoaded += (o1, e1) =>
                     {
                         //加载展示数据
-                        go.CopyDataFrom(List[0]);
+                        go.CopyDataFrom(pdl[0]);
                         e.PageVisual = DataArea;
                         DataArea.UpdateLayout();
                         //打印完成，重置索引
                         if (PageIndex == Count-1)
                         {
+                            IsBusy = false;
                             e.HasMorePages = false;
                         }
                         else
@@ -289,7 +307,7 @@ namespace Com.Aote.Controls
                             e.HasMorePages = true;
                         }
                     };
-                    pol.PageIndex = PageIndex;
+                    pdl.PageIndex = PageIndex;
                 }
             };
             pd.Print("");

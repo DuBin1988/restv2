@@ -309,6 +309,34 @@ namespace Com.Aote.Controls
                     };
                     pdl.PageIndex = PageIndex;
                 }
+                else if (List is PagedList)
+                {
+                    PageIndex++;
+                    PagedList pol = new PagedList();
+                    pol.WebClientInfo = List.WebClientInfo;
+                    pol.Path = List.Path;
+                    pol.Count = List.Count;
+                    pol.HQL = ((PagedList)List).HQL ;
+                    pol.PageSize = PageRow;
+                    pol.DataLoaded += (o1, e1) =>
+                    {
+                        //加载展示数据
+                        go.CopyDataFrom(List[0]);
+                        e.PageVisual = DataArea;
+                        DataArea.UpdateLayout();
+                        //打印完成，重置索引
+                        if (PageIndex == Count - 1)
+                        {
+                            IsBusy = false;
+                            e.HasMorePages = false;
+                        }
+                        else
+                        {
+                            e.HasMorePages = true;
+                        }
+                    };
+                    pol.PageIndex = PageIndex;
+                }
             };
             pd.Print("");
         }

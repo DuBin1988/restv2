@@ -321,7 +321,7 @@ namespace Com.Aote.Controls
                     pol.DataLoaded += (o1, e1) =>
                     {
                         //加载展示数据
-                        go.CopyDataFrom(List[0]);
+                        go.CopyDataFrom(pol[0]);
                         e.PageVisual = DataArea;
                         DataArea.UpdateLayout();
                         //打印完成，重置索引

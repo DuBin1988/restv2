@@ -263,12 +263,8 @@ namespace Com.Aote.Controls
             }
             else
             {
-                  pd.Print("");
-
+                pd.Print("");
             }
-
-
-
         }
 
         /// <summary>

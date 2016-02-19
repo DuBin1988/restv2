@@ -933,6 +933,25 @@ namespace Com.Aote.ObjectTools
             set { SetValue(CanSaveExProperty, value); }
         }
         #endregion
+        public void TipError()
+        {
+            //有错误，不保存
+            _errors.ToString();
+            this._errors.ToString();
+
+            //如果页面有错误内容,不能保存,提示错误.
+            if (this.HasErrors)
+            {
+                string msg = "";
+                foreach (KeyValuePair<string, string> kv in _errors)
+                {
+                    msg += "key=" + kv.Key + ", value=" + kv.Value + "\n";
+                }
+                MessageBox.Show(msg);
+                return;
+            }
+            
+        }
 
         #region Save 保存对象，直接保存到数据库
         public void Save()

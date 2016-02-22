@@ -379,6 +379,11 @@ namespace Com.Aote.ObjectTools
                 OnError(propertyName, setter.ErrorMessage);
                 return false;
             }
+            if (setter != null && setter.Regex != null && value!=null && !setter.IsMath(value))
+            {
+                OnError(propertyName, setter.ErrorMessage);
+                return false;
+            }
             //校验成功，通知没有错误
             NotError(propertyName);
             return true;

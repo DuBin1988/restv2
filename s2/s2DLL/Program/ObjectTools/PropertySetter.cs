@@ -13,6 +13,7 @@ using System.ComponentModel;
 using Com.Aote.Marks;
 using Com.Aote.Utils;
 using System.Reflection;
+using System.Text.RegularExpressions;
 
 namespace Com.Aote.ObjectTools
 {
@@ -219,6 +220,23 @@ namespace Com.Aote.ObjectTools
                     }
                 }
             }
+        }
+        //正则表达式配置
+        public string Regex
+        {
+            get;
+            set;
+        }
+        //校验正则表达式
+        public bool IsMath(object value)
+        {
+            bool flag = true;
+            Regex dReg = new Regex(Regex);
+            if (!dReg.IsMatch(value.ToString()))
+            {
+                flag = false;
+            }
+            return flag;
         }
 
         //给属性设置值

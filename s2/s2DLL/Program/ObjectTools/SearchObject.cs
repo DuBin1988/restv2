@@ -92,6 +92,15 @@ namespace Com.Aote.ObjectTools
         #endregion
 
         /// <summary>
+        /// 清空查询对象，用于界面上置空操作
+        /// </summary>
+        public void SearchClear()
+        {
+            _customPropertyValues.Clear();
+            OnPropertyChanged("");
+        }
+
+        /// <summary>
         /// 产生查询条件，把输入的内容，根据配置转换成完整的HQL的条件格式。各输入内容用“and”连接。
         /// 如果条件没有发生变化，通过添加空格的方式迫使其变化。
         /// 如果没有条件，设置条件为 1=1 当做条件为真处理。

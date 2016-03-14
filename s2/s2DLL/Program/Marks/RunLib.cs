@@ -499,6 +499,21 @@ namespace Com.Aote.Utils
             string[] strs = format.Split('|');
             return text.Replace(strs[0], strs[1]);
         }
+        //分割字符串，获得指定位置的值
+        public static object Split(object a, object b, int i)
+        {
+            if (a == null || b == null || i == null)
+            {
+                return null;
+            }
+            char[] c = b.ToString().ToCharArray();
+            string[] str = a.ToString().Split(c);
+            if (str.Length - 1 < i)
+            {
+                return null;
+            }
+            return str[i];
+        }
 
         //获取某月总天数
         public static int DayOfMonth(DateTime date, int year, int month)

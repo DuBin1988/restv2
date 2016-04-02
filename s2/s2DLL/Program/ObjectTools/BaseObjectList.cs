@@ -94,6 +94,17 @@ namespace Com.Aote.ObjectTools
             objects.Add(go);
         }
 
+
+        public void AddEmpty()
+        {
+            GeneralObject go = new GeneralObject() { EntityType = this.EntityType };
+            go.List = this;
+            go.New();
+            //监听空行对象
+            Monity(go);
+            objects.Add(go);
+        }
+
         private void EmptyRowChanged(object o, PropertyChangedEventArgs e)
         {
             CreateEmpty();

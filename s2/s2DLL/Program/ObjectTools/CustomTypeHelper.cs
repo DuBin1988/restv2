@@ -428,6 +428,10 @@ namespace Com.Aote.ObjectTools
             {
                 return true;
             }
+            if (value is BaseObjectList)
+            {
+                return true;
+            }
             bool result = type.IsAssignableFrom(value.GetType());
             return result;
         }

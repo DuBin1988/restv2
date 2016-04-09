@@ -1230,6 +1230,7 @@ namespace Com.Aote.ObjectTools
 
         public bool Remove(GeneralObject item)
         {
+            item.HasErrors = false;
             RemoveMonity(item);
             bool result = objects.Remove(item);
             OnPropertyChanged("Count");

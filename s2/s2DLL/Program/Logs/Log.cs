@@ -90,7 +90,7 @@ namespace Com.Aote.Logs
         private string GetShowMessage(string message)
         {
             //格式固定为时间，名称，内容
-            string result = DateTime.Now.ToString("yyyy-mm-dd hh:mm:tt:ss");
+            string result = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss");
             result += " " + name + " " + message;
             return result;
         }

@@ -779,8 +779,17 @@ namespace Com.Aote.ObjectTools
             {
                 return;
             }
-            //string[] split = new string[] { "\r\n" }; //hyq close 用于物联网表计信息批量导入
-            string[] split = new string[] { "\r" };//hyq add
+            string[] split = null;
+            if(excelStr.IndexOf("\r\n") !=-1)
+            {
+              split =  new string[] { "\r\n" };
+            }
+            else
+            {
+                 split = new string[] { "\r" };//hyq add
+            }
+            //c = new string[] { "\r\n" }; //hyq close 用于物联网表计信息批量导入
+          //  string[] split = new string[] { "\r" };//hyq add
             string[] objs = excelStr.Split(split, StringSplitOptions.RemoveEmptyEntries);
             //第一行为列名
             char[] cc = { '\t' };

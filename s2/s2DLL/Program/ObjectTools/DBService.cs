@@ -56,6 +56,19 @@ namespace Com.Aote.ObjectTools
                     {
                         (obj as IFromJson).FromJson((JsonObject)resultJson[obj.Name]);
                     }
+                    //判定是否保存成功
+                    if (resultJson.ContainsKey("success")) 
+                    {
+                        string success = resultJson["success"];
+                        MessageBox.Show(success);
+                    }
+                    if (resultJson.ContainsKey("error")) 
+                    {
+                        obj.State = State.Error;
+                        obj.Error = resultJson["error"];
+                        obj.OnCompleted(e);
+                        return;
+                    }
                     obj.State = State.End;
                 }
                 obj.OnCompleted(e);

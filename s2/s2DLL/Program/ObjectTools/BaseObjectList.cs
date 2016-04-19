@@ -94,6 +94,17 @@ namespace Com.Aote.ObjectTools
             objects.Add(go);
         }
 
+
+        public void AddEmpty()
+        {
+            GeneralObject go = new GeneralObject() { EntityType = this.EntityType };
+            go.List = this;
+            go.New();
+            //监听空行对象
+            Monity(go);
+            objects.Add(go);
+        }
+
         private void EmptyRowChanged(object o, PropertyChangedEventArgs e)
         {
             CreateEmpty();
@@ -1228,6 +1239,7 @@ namespace Com.Aote.ObjectTools
 
         public bool Remove(GeneralObject item)
         {
+            item.HasErrors = false;
             RemoveMonity(item);
             bool result = objects.Remove(item);
             OnPropertyChanged("Count");

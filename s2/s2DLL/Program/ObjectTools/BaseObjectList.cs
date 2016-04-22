@@ -43,7 +43,7 @@ namespace Com.Aote.ObjectTools
 
         #region HasEmptyRow 是否额外添加一个空行，用于表格编辑时，额外添加空行，以便新添数据的操作
         public static readonly DependencyProperty HasEmptyRowProperty =
-            DependencyProperty.Register("HasEmptyRow", typeof(bool), typeof(ObjectList),
+            DependencyProperty.Register("HasEmptyRow", typeof(bool), typeof(BaseObjectList),
             new PropertyMetadata(false, new PropertyChangedCallback(OnHasEmptyRowChanged)));
         private static void OnHasEmptyRowChanged(DependencyObject o, DependencyPropertyChangedEventArgs e)
         {

@@ -166,6 +166,7 @@
     <Compile Include="Program\Controls\MessageTipObj.cs" />
     <Compile Include="Program\ObjectTools\NewGeneralICCard.cs" />
     <Compile Include="Program\ObjectTools\PagedList.cs" />
+    <Compile Include="Program\ObjectTools\ParamObjectList.cs" />
     <Compile Include="Program\ObjectTools\ScriptObj.cs" />
     <Compile Include="Program\ObjectTools\MSMObj.cs" />
     <Compile Include="Program\ObjectTools\ObjectList.cs" />

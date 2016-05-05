@@ -13,7 +13,7 @@ using System.Windows.Printing;
 using System.Reflection;
 using System.Collections;
 using System.ComponentModel;
- 
+
 
 namespace Com.Aote.Controls
 {
@@ -51,7 +51,7 @@ namespace Com.Aote.Controls
             }
         }
         private UIElement area;
-        public UIElement Area 
+        public UIElement Area
         {
             set
             {
@@ -69,13 +69,35 @@ namespace Com.Aote.Controls
                 {
                     Area.GetType().GetProperty("ItemsSource").SetValue(Area, items, null);
                 }
-                
+
             }
             get
             {
                 return this.area;
             }
         }
+
+
+        //自定义最下方区域
+        private string cusFooterElem;
+        public string CusFooterElem
+        {
+            set
+            {
+                if (value == null)
+                {
+                    return;
+                }
+                this.cusFooterElem = value;
+            }
+            get
+            {
+                return this.cusFooterElem;
+            }
+        }
+
+
+
 
 
         private UIElement dataarea;
@@ -111,19 +133,7 @@ namespace Com.Aote.Controls
         }
 
         //总页数
-        private int count;
-        public int Count 
-        {
-            set
-            {
-                count = value;
-                OnPropertyChanged("Count");
-            }
-            get
-            {
-                return this.count;
-            }
-        }
+        public int Count { set; get; }
 
         //当前页数
         private int pageIndex = -1;
@@ -140,7 +150,7 @@ namespace Com.Aote.Controls
             }
         }
 
-        
+
         //对应的List
         private BaseObjectList list;
         public BaseObjectList List
@@ -193,33 +203,39 @@ namespace Com.Aote.Controls
                 {
                     PageIndex++;
                     BasePagedList pol = (BasePagedList)List;
-                    pol.DataLoaded += (o1,e1) =>
+                    pol.DataLoaded += (o1, e1) =>
                     {
                         //加载展示数据
                         items.CopyFrom(List, 0, this.pageRow);
-                        //StackPanel panel = (Area as FrameworkElement).FindName("pageNoPanel") as StackPanel;
-                        //// if (panel.Tag.Equals(""))
-                        //// {
-                        ////     return;
-                        //// }
-                        ////else 
-                        //if (panel.Tag.Equals("showPageNo"))
-                        //{
-                        //    (panel.FindName("pageNo") as TextBlock).Text = "第" + (PageIndex + 1) + "页" + "共" + Count+"页";
-                        //}
-                            e.PageVisual = Area;
-                            area.UpdateLayout();
-                        
-                        //打印完成，重置索引
-                        if (PageIndex == Count-1)
+                        UIElement Footer = null;
+                        if (this.cusFooterElem != null)
                         {
-                            //(panel.FindName("pageNo") as TextBlock).Text = "";
+                            Footer = (Area as FrameworkElement).FindName(cusFooterElem) as UIElement;
+                        }
+                        else
+                        {
+                            Footer = (Area as FrameworkElement).FindName("Footer") as UIElement;
+                        }
+                        if (Footer != null)
+                        {
+                            Footer.Visibility = Visibility.Collapsed;
+                        }
+
+                        //打印完成，重置索引
+                        if (PageIndex == Count - 1)
+                        {
+                            if (Footer != null)
+                            {
+                                Footer.Visibility = Visibility.Visible;
+                            }
                             e.HasMorePages = false;
                         }
                         else
                         {
                             e.HasMorePages = true;
                         }
+                        e.PageVisual = Area;
+                        area.UpdateLayout();
                     };
                     pol.PageIndex = PageIndex;
                 }
@@ -247,26 +263,13 @@ namespace Com.Aote.Controls
                 }
             };
             pd.Print("");
-       }
-
-        /// <summary>
-        /// 是否正忙于工作
-        /// </summary>
-        public bool isBusy = false;
-        public bool IsBusy
-        {
-            get { return isBusy; }
-            set
-            {
-                isBusy = value;
-                OnPropertyChanged("IsBusy");
-            }
         }
+
+
 
         //打印
         public void PrintD()
         {
-            IsBusy = true;
             PageIndex = -1;
             Count = (List.Count % PageRow == 0) ? (List.Count / PageRow) : (List.Count / PageRow) + 1;
             if (Count == 0)
@@ -278,56 +281,23 @@ namespace Com.Aote.Controls
             pd.PrintPage += (o, e) =>
             {
                 PrintDocument pd1 = (PrintDocument)o;
-                if (pd1.PrintedPageCount-1 != PageIndex)
+                if (pd1.PrintedPageCount - 1 != PageIndex)
                 {
                     return;
                 }
                 if (List is PagedObjectList)
                 {
                     PageIndex++;
-                    PagedObjectList pdl = new PagedObjectList();
-                    pdl.WebClientInfo = List.WebClientInfo;
-                    pdl.Path = List.Path;
-                    pdl.Count = List.Count;
-                    pdl.PageSize = PageRow;
-                    pdl.DataLoaded += (o1, e1) =>
-                    {
-                        //加载展示数据
-                        go.CopyDataFrom(pdl[0]);
-                        e.PageVisual = DataArea;
-                        DataArea.UpdateLayout();
-                        //打印完成，重置索引
-                        if (PageIndex == Count-1)
-                        {
-                            IsBusy = false;
-                            e.HasMorePages = false;
-                        }
-                        else
-                        {
-                            e.HasMorePages = true;
-                        }
-                    };
-                    pdl.PageIndex = PageIndex;
-                }
-                else if (List is PagedList)
-                {
-                    PageIndex++;
-                    PagedList pol = new PagedList();
-                    pol.WebClientInfo = List.WebClientInfo;
-                    pol.Path = List.Path;
-                    pol.Count = List.Count;
-                    pol.HQL = ((PagedList)List).HQL ;
-                    pol.PageSize = PageRow;
+                    PagedObjectList pol = (PagedObjectList)List;
                     pol.DataLoaded += (o1, e1) =>
                     {
                         //加载展示数据
-                        go.CopyDataFrom(pol[0]);
+                        go.CopyDataFrom(List[0]);
                         e.PageVisual = DataArea;
                         DataArea.UpdateLayout();
                         //打印完成，重置索引
                         if (PageIndex == Count - 1)
                         {
-                            IsBusy = false;
                             e.HasMorePages = false;
                         }
                         else
@@ -337,6 +307,50 @@ namespace Com.Aote.Controls
                     };
                     pol.PageIndex = PageIndex;
                 }
+            };
+            pd.Print("");
+        }
+
+
+        //打印
+         public void PrintOneNoLoad()
+        {
+            PageIndex = -1;
+            Count = (List.Count % PageRow == 0) ? (List.Count / PageRow) : (List.Count / PageRow) + 1;
+            if (Count == 0)
+            {
+                return;
+            }
+            int c = list.Count;
+            int printIndex = 0;
+            PrintDocument pd = new PrintDocument();
+            pd.PrintPage += (o, e) =>
+            {
+                PrintDocument pd1 = (PrintDocument)o;  
+                if (pd1.PrintedPageCount - 1 != PageIndex)
+                {
+                    return;
+                }
+                if (List is PagedObjectList)
+                {
+                    PageIndex++;
+                    PagedObjectList pol = (PagedObjectList)List;
+         
+                        //加载展示数据
+                        go.CopyDataFrom(List[printIndex]);
+                        e.PageVisual = DataArea;
+                        DataArea.UpdateLayout();
+                        //打印完成，重置索引
+                        if (printIndex == Count - 1)
+                        {
+                            e.HasMorePages = false;
+                        }
+                        else
+                        {
+                            e.HasMorePages = true;
+                        }
+                        printIndex++;
+                 }
             };
             pd.Print("");
         }

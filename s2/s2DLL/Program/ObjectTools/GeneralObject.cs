@@ -345,6 +345,19 @@ namespace Com.Aote.ObjectTools
         }
         #endregion
 
+        #region IsChecked 是否选中属性，为了减少属性通知，加快列表选中速度。
+        private bool isChecked = false;
+        public bool IsChecked
+        {
+            get { return isChecked; }
+            set
+            {
+                isChecked = value;
+                OnPropertyChanged("IsChecked");
+            }
+        }
+        #endregion
+
         #region IsEmptyRow 是否空行对象
         public bool IsEmptyRow
         {

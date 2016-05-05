@@ -78,6 +78,7 @@ namespace Com.Aote.ObjectTools
                             go.WebClientInfo = this.WebClientInfo;
                             go.SetPropertyValue("f_road", this.GetPropertyValue("f_road") + "", true);
                             go.SetPropertyValue("f_districtname", this.GetPropertyValue("f_districtname") + "", true);
+                            go.SetPropertyValue("f_area", this.GetPropertyValue("f_area") + "", true);
                             //设置楼号，有模式，按模式设置
                             string buildpattern = this.GetPropertyValue("f_buildpattern") + "";
                             string str = MatchPattern(build, buildpattern);

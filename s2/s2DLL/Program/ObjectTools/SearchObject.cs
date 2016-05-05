@@ -100,6 +100,87 @@ namespace Com.Aote.ObjectTools
             OnPropertyChanged("");
         }
 
+        public void New()
+        {
+            for (int i = 0; i < _customPropertyValues.Keys.Count; i++)
+            {
+                string key = _customPropertyValues.Keys.ToArray()[i];
+                this.NewPropertyValue(key);
+            }
+        }
+
+        #region NewPropertyValue 初始化属性值，如果配置里有默认值，设置属性值为默认值，否则为null
+        public void NewPropertyValue(string propertyName)
+        {
+            //有属性默认值
+            var p = (from ps in PropertySetters where ps.PropertyName == propertyName select ps).FirstOrDefault();
+            if (p != null && p.Default != null)
+            {
+                //设置默认属性结果
+                SetPropertyValue(propertyName, p.Default, true, true);
+                //如果默认属性是列表，调用列表的New过程
+                if (p.Default is BaseObjectList)
+                {
+                    (p.Default as BaseObjectList).New();
+                }
+            }
+            //有默认对象，复制默认对象
+            else if (p != null && p.DefaultObject != null)
+            {
+                if (p.DefaultObject is GeneralObject)
+                {
+                    //复制默认对象到新对象
+                    GeneralObject go = p.DefaultObject as GeneralObject;
+                    GeneralObject ngo = new GeneralObject();
+                    ngo.CopyFrom(go);
+                    p.Object.SetPropertyValue(p.PropertyName, ngo, false, true);
+                }
+                else if (p.DefaultObject is ObjectList)
+                {
+                    //复制默认对象到新对象
+                    ObjectList go = p.DefaultObject as ObjectList;
+                    ObjectList ngo = new ObjectList();
+                    ngo.CopyFrom(go);
+                    p.Object.SetPropertyValue(p.PropertyName, ngo, false, true);
+                }
+            }
+            else
+            {
+                //如果属性是集合
+                if (GetProperty(propertyName).PropertyType == typeof(BaseObjectList))
+                {
+                    //如果属性存在，清空集合
+                    BaseObjectList old = (BaseObjectList)this.GetPropertyValue(propertyName);
+                    if (old != null)
+                    {
+                        old.New();
+                    }
+                    //否则，无不置空标记，设置一个空集合
+                    else if (!NotEmpty)
+                    {
+                        SetPropertyValue(propertyName, new ObjectList(), true);
+                    }
+                }
+                else
+                {
+                    SetPropertyValue(propertyName, null, true, true);
+                }
+            }
+        }
+        #endregion
+
+        #region NotEmpty 不给一对多关系设置空集合。
+        private bool notEmpty = false;
+        public bool NotEmpty
+        {
+            get { return notEmpty; }
+            set
+            {
+                notEmpty = value;
+            }
+        }
+        #endregion
+
         /// <summary>
         /// 产生查询条件，把输入的内容，根据配置转换成完整的HQL的条件格式。各输入内容用“and”连接。
         /// 如果条件没有发生变化，通过添加空格的方式迫使其变化。

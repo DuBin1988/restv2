@@ -62,14 +62,17 @@ namespace Com.Aote.ObjectTools
                         string success = resultJson["success"];
                         MessageBox.Show(success);
                     }
-                    if (resultJson.ContainsKey("error")) 
+                    if (resultJson.ContainsKey("error"))
                     {
-                        obj.State = State.Error;
                         obj.Error = resultJson["error"];
+                        obj.State = State.Error;
                         obj.OnCompleted(e);
                         return;
                     }
-                    obj.State = State.End;
+                    else 
+                    {
+                        obj.State = State.End;
+                    }
                 }
                 obj.OnCompleted(e);
             };

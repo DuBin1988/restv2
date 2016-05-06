@@ -48,6 +48,42 @@ namespace Com.Aote.Controls
             }
         }
 
+        /// <summary>
+        /// 保存方式, 数据库方式或文件方式。
+        /// </summary>
+        private string saveMode = "";
+        public string SaveMode
+        {
+            get { return saveMode; }
+            set
+            {
+                if (saveMode != value)
+                {
+                    saveMode = value;
+                    OnPropertyChanged("SaveMode");
+                }
+            }
+        }
+
+
+        /// <summary>
+        /// 业务类型描述
+        /// </summary>
+        private string businessType = "";
+        public string BusinessType
+        {
+            get { return businessType; }
+            set
+            {
+                if (businessType != value)
+                {
+                    businessType = value;
+                    OnPropertyChanged("BusinessType");
+                }
+            }
+        }
+
+
         #region Error 单条错误信息
         public static readonly DependencyProperty ErrorProperty =
             DependencyProperty.Register("Error", typeof(string), typeof(FileLoad),

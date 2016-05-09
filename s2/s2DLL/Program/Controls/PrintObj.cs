@@ -204,6 +204,42 @@ namespace Com.Aote.Controls
             }
         }
 
+        /// <summary>
+        /// 提示方法，提示完发送通知，手动调用打印
+        /// </summary>
+        public void TipNoPrint()
+        {
+            State = State.Start;
+            //自定义界面,加载自定义界面
+            if (this.messWindowName != null && !this.messWindowName.Equals(""))
+            {
+                this.CustomPagePrint();
+            }
+            //默认提示打印
+            else
+            {
+                ShowMessage tipPage = new ShowMessage();
+                ((ShowMessage)tipPage).Message = this.Message;
+                //注册关闭事件获取返回值
+                tipPage.Closed += (o, e) =>
+                {
+                    ShowMessage cw = (ShowMessage)o;
+                    if (cw.ReturnValue != null && (bool)cw.ReturnValue)
+                    {
+                        AsyncCompletedEventArgs args1 = new AsyncCompletedEventArgs(null, true, State.Start);
+                        OnTipCompleted(args1);
+                    }
+                    else
+                    {
+                        State = State.Cancle;
+                        AsyncCompletedEventArgs args1 = new AsyncCompletedEventArgs(null, true, State.Cancle);
+                        OnCompleted(args1);
+                    }
+                };
+                tipPage.Show();
+            }
+        }
+
         //自定义界面打印
         private void CustomPagePrint()
         {
@@ -292,6 +328,16 @@ namespace Com.Aote.Controls
             set { SetValue(ErrorProperty, value); }
         }
         #endregion
+
+        public event AsyncCompletedEventHandler TipCompleted;
+
+        public void OnTipCompleted(AsyncCompletedEventArgs args)
+        {
+            if (TipCompleted != null)
+            {
+                TipCompleted(this, args);
+            }
+        }
 
         public event AsyncCompletedEventHandler Completed;
 

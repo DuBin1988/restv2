@@ -19,7 +19,7 @@ namespace Com.Aote.Controls
     /**
      * 自定义子窗口
      */
-    public class CustomChildWindow : ChildWindow
+    public class CustomChildWindow : ChildWindow,IName
     {
   
         #region Result属性,子窗口返回结果

@@ -205,7 +205,7 @@ namespace Com.Aote.ObjectTools
             }
             else
             {
-                str = WebClientInfo.BaseAddress + "/" + Path.Replace("%", "%25").Replace("#", "%23").Replace("^", "<") + "/" + pageIndex + "/" + PageSize + "?uuid=" + uuid;
+                str = WebClientInfo.BaseAddress + "/" + Path.Replace("%", "%25").Replace("#", "%23").Replace("^", "<") + "/" + pageIndex + "/" + PageSize + "?EntityType=" + EntityType + "&uuid=" + uuid;
             }
             Uri uri = new Uri(str);
             WebClient client = new WebClient();

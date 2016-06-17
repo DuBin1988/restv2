@@ -114,6 +114,17 @@ namespace Com.Aote.ObjectTools
         {
             get { return (GeneralObject)GetValue(EmptyRowProperty); }
             set { SetValue(EmptyRowProperty, value); }
+		}
+        #endregion
+
+        #region AppendKey 是否采用数据追加模式
+        public static readonly DependencyProperty AppendKeyProperty =
+            DependencyProperty.Register("AppendKey", typeof(string), typeof(BaseObjectList), new PropertyMetadata(null, null));
+
+        public string AppendKey
+        {
+            get { return (string)GetValue(AppendKeyProperty); }
+            set { SetValue(AppendKeyProperty, value); }
         }
         #endregion
 
@@ -513,6 +524,16 @@ namespace Com.Aote.ObjectTools
             }
         }
 
+		#region 最新数据通知
+        public event AsyncCompletedEventHandler UpdateToDate;
+        public void OnUpdateToDate(AsyncCompletedEventArgs args)
+        {
+            if (UpdateToDate != null)
+            {
+                UpdateToDate(this, args);
+            }
+        }
+        #endregion
         /// <summary>
         /// 异步对象工作状态。
         /// </summary>
@@ -931,14 +952,17 @@ namespace Com.Aote.ObjectTools
                 }
             }
             //删除不在获取的数据中的对象
-            foreach (GeneralObject go in delObjs)
+			if(this.AppendKey == null)
             {
-                //空行数据不删除
-                if (go == EmptyRow)
-                {
-                    continue;
-                }
-                this.objects.Remove(go);
+            	foreach (GeneralObject go in delObjs)
+            	{
+                	//空行数据不删除
+                	if (go == EmptyRow)
+                	{
+                    	continue;
+                	}
+                	this.objects.Remove(go);
+				}
             }
             //通知对象序号发生变化
             foreach (GeneralObject go in objects)

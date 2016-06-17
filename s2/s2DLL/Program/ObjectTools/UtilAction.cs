@@ -89,6 +89,14 @@ namespace Com.Aote.ObjectTools
             frame.Navigate(uri);
         }
 
+ 		public void Close()
+        {
+           
+            Page p = (Page)Application.Current.RootVisual;
+            Frame frame = (Frame)p.FindName("frame");
+            Uri uri = new Uri("/MainPage.xaml", UriKind.RelativeOrAbsolute);
+            frame.Navigate(uri);
+    	}
         public string Name
         {
             get;

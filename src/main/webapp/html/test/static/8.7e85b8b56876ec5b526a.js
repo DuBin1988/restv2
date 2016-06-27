@@ -1,0 +1,2 @@
+webpackJsonp([8],{101:function(t,o){"use strict";Object.defineProperty(o,"__esModule",{value:!0}),o["default"]={title:"功能菜单"}},184:function(t,o){t.exports="<div><button @click=\"$goto('project', {}, false)\">项目管理</button> <button @click=\"$goto('task-list', {}, false)\">任务管理</button></div>"},208:function(t,o,e){var s,p;s=e(101),p=e(184),t.exports=s||{},t.exports.__esModule&&(t.exports=t.exports["default"]),p&&(("function"==typeof t.exports?t.exports.options||(t.exports.options={}):t.exports).template=p)}});
+//# sourceMappingURL=8.7e85b8b56876ec5b526a.js.map

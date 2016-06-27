@@ -15,8 +15,9 @@
             </ResourceDictionary.MergedDictionaries>
         </ResourceDictionary>
 
-        <o:WebClientInfo x:Key="ldapaddress" BaseAddress="http://127.0.0.1/rs"/>
-        <o:WebClientInfo x:Key="dbclient" BaseAddress="http://127.0.0.1:8080/rs/db"/>
+        <o:WebClientInfo x:Key="ldapaddress" BaseAddress="http://127.0.0.1:8081/ldap/rs"/>
+        <o:WebClientInfo x:Key="dbclient" BaseAddress="http://127.0.0.1:8081/restv2/rs/db"/>
+        <o:WebClientInfo x:Key="html" BaseAddress="http://127.0.0.1:8081/restv2"/>
 
     </Application.Resources>
  

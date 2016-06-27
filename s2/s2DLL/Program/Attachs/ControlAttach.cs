@@ -18,6 +18,7 @@ using System.Collections;
 using System.Linq;
 using System.Windows.Navigation;
 using System.Collections.Generic;
+using Com.Aote.Controls;
 
 namespace Com.Aote.Attachs
 {
@@ -186,6 +187,17 @@ namespace Com.Aote.Attachs
             {
                 return;
             }
+
+            // 如果是加载网页组件，产生网页组件，把网页名称给网页组件
+            if (e.NewValue.Equals("html.xaml"))
+            {
+                Html html = new Html();
+                c.Content = html;
+                // 把网页名称给网页组件
+                html.Source = GetHtmlSource((Frame)c);
+                return;
+            }
+
             PageResourceContentLoader load = new PageResourceContentLoader();
             load.BeginLoad(new Uri(e.NewValue + ".xaml", UriKind.Relative), null, new AsyncCallback(r =>
             {
@@ -201,6 +213,19 @@ namespace Com.Aote.Attachs
         public static void SetSource(DependencyObject d, string value)
         {
             d.SetValue(SourceProperty, value);
+        }
+        #endregion
+
+        #region Html 通过Html属性指明网页组件对应的html网页名称。
+        public static readonly DependencyProperty HtmlSourceProperty = DependencyProperty.RegisterAttached(
+            "HtmlSource", typeof(string), typeof(Frame), new PropertyMetadata(null));
+        public static string GetHtmlSource(DependencyObject d)
+        {
+            return (string)d.GetValue(HtmlSourceProperty);
+        }
+        public static void SetHtmlSource(DependencyObject d, string value)
+        {
+            d.SetValue(HtmlSourceProperty, value);
         }
         #endregion
 

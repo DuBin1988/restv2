@@ -25,7 +25,8 @@
 	        <o:CustomTypes Name="CustomTypes" 
 			WebClientInfo="{StaticResource dbclient}" Path=""/>
 
-            <o:Timer Name="Timer1" Interval="1000000"/>
+            <o:Timer Name="Timer1" Interval="1000000"/>
+
             <!--服务器时间-->
             <o:SystemTime Name="SysTime" WebClientInfo="{StaticResource ldapaddress}" Path="user/systime"/>
 
@@ -33,7 +34,7 @@
 	        <o:GeneralObject Name="LoginUser" 
 			IsInit="{m:Exp Str='this.State==$LoadError'}" 
 			Path="{m:Exp Str
-                ='$user/{this.ename}/{this.password}/报装系统'}"
+                ='$user/{this.ename}/{this.password}/营收系统'}"
 			LoadOnPathChanged="False" WebClientInfo="{StaticResource ldapaddress}">
                 <o:PropertySetter PropertyName="ename" Type="string" NotNull="True" />
 	            <o:PropertySetter PropertyName="password" Type="string" NotNull="True"/>

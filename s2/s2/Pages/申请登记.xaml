@@ -262,8 +262,8 @@
 							</sdk:DataGridTemplateColumn.CellTemplate>
 							<sdk:DataGridTemplateColumn.CellEditingTemplate>								
 								<DataTemplate>
-					 					<toolkit:TimePicker Format="HH:mm:ss" Value="{m:Bind Path=time}">
-								</toolkit:TimePicker>
+					 					<sdk:DatePicker>
+								</sdk:DatePicker>
 								</DataTemplate>	
 							</sdk:DataGridTemplateColumn.CellEditingTemplate>				
 						</sdk:DataGridTemplateColumn>

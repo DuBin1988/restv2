@@ -105,12 +105,12 @@
 					 
 			 
                     <TextBlock Margin="0,10,0,0" TextWrapping="Wrap" Text="时间:" TextAlignment="Right" RenderTransformOrigin="0.393,2.625" Grid.Row="2"/>
-					<toolkit:TimePicker Format="HH:mm:ss" Value="{m:Bind Path=time}" Grid.Column="1" Margin="5" Height="Auto" Grid.Row="2" Grid.RowSpan="1" d:LayoutOverrides="GridBox">
+					<sdk:DatePicker Grid.Column="1" Margin="5" Height="Auto" Grid.Row="2" Grid.RowSpan="1" d:LayoutOverrides="GridBox">
 		                <a:Data.Prop>
                     		   <o:PropertySetter PropertyName="time" Default="{m:Exp Str='SysTime.Now'}"/>
          				</a:Data.Prop>
 
-					</toolkit:TimePicker>
+					</sdk:DatePicker>
 					<TextBlock TextWrapping="Wrap" Text="性别:" TextAlignment="Right" RenderTransformOrigin="0.393,2.625" Grid.Row="3" Height="20" VerticalAlignment="Top"/>
 					<TextBox Text="{m:Bind Path=sex}" Grid.Column="1" Margin="0,0,10,0" Height="22" HorizontalAlignment="Stretch" Width="Auto" Grid.Row="3" VerticalAlignment="Top" d:LayoutOverrides="Height">
 						<a:Data.Prop>

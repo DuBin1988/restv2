@@ -39,7 +39,10 @@
             </a:TabControlAttach.HeaderTemplate>
             <a:TabControlAttach.ContentTempalte>
                 <DataTemplate>
-                	<sdk:Frame Source="{m:Exp Str='${data.navigate}.xaml'}"/>
+                    <sdk:Frame
+                        Visibility="{m:Exp Str=start.IsChecked:$Collapsed$\,$Visible}"
+                        a:ControlAttach.HtmlSource="{m:Exp Str='${data.navigate}'}" 
+                        a:ControlAttach.Source="{m:Exp Str='${data.link}.xaml'}"/>
                 </DataTemplate>
             </a:TabControlAttach.ContentTempalte>
         </sdk:TabControl>

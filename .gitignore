@@ -1,1 +1,15 @@
 /target/
+/bin/
+s2/s2.Web/ClientBin/s2.xap
+s2/s2DLL/Bin
+s2/s2DLL/obj
+s2/Backup/
+s2/UpgradeLog.htm
+s2/s2.Web/bin/
+s2/s2.Web/obj/
+s2/s2.v12.suo
+s2/s2/Bin/
+s2/s2/obj/
+s2/s2DLL/Bin
+s2/s2DLL/obj
+.gradle

@@ -90,6 +90,9 @@
     <Compile Include="Program\Controls\Excel.cs" />
     <Compile Include="Program\Controls\CustomDataGrid.cs" />
     <Compile Include="Program\Controls\EditComboBox.cs" />
+    <Compile Include="Program\Controls\Html.xaml.cs">
+      <DependentUpon>Html.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Program\Controls\MarkObject.cs" />
     <Compile Include="Program\Controls\Month.xaml.cs">
       <DependentUpon>Month.xaml</DependentUpon>
@@ -212,6 +215,10 @@
     <Page Include="Program\Controls\CardPanel.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Program\Controls\Html.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Program\Controls\ImageView.xaml">
       <SubType>Designer</SubType>

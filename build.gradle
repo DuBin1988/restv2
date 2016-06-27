@@ -1,0 +1,81 @@
+apply plugin: 'java'
+apply plugin: 'jetty'
+apply plugin: 'eclipse'
+apply plugin: 'eclipse-wtp'
+apply plugin: 'maven-publish'
+
+sourceCompatibility = 1.6
+targetCompatibility = 1.6
+
+version = '1.0.0'
+
+repositories {
+	mavenLocal()
+	mavenCentral()
+	maven {
+		url "http://125.76.225.203:3002/nexus/content/repositories/thirdparty/"
+	}
+	maven {
+		url "http://mvnrepository.com/artifact/"
+	}
+}
+
+dependencies {
+	compile(
+		"org.hibernate:hibernate-core:3.3.1.GA",
+		"org.springframework:spring-context:3.0.5.RELEASE",
+		"org.springframework:spring-orm:3.0.5.RELEASE",
+		"com.sun.jersey:jersey-json:1.19.1",
+		"com.sun.jersey.contribs:jersey-spring:1.19.1",
+		"aspectj:aspectjweaver:1.5.3",
+		"log4j:log4j:1.2.12",
+		"org.slf4j:slf4j-simple:1.5.8",
+		"commons-dbcp:commons-dbcp:1.2.2",
+		"af:expression:1.1.10",
+		"javax.servlet:servlet-api:2.5",
+	)
+
+	testCompile(
+		"junit:junit:4.4",
+		"org.apache.httpcomponents:httpclient:4.1.2"
+	)
+
+	runtime(
+		"org.springframework:spring-web:3.0.5.RELEASE",
+		"jdbc:sqlserver:1",
+		"cglib:cglib:2.2"
+	)
+}
+
+task sourceJar(type: Jar) {
+	from sourceSets.main.allJava
+  	classifier "sources"
+}
+
+// ·¢²¼
+publishing {
+    publications {
+        maven(MavenPublication) {
+            groupId 'af'
+            artifactId 'workflow'
+            version version
+
+			artifact sourceJar
+            from components.java
+        }
+    }
+	repositories {
+        maven {
+			credentials {
+            	username "admin"
+            	password "admin123"
+          	}
+			url "http://125.76.225.203:3002/nexus/content/repositories/thirdparty/"
+        }
+    }
+}
+
+task release(type:Exec, dependsOn:publish) {
+	workingDir '.'
+	commandLine 'cmd', '/c', 'release.bat ' + version
+}
